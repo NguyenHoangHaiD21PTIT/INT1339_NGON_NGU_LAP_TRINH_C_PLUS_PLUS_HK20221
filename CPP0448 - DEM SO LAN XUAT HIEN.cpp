@@ -13,8 +13,7 @@ int main(){
 			cin>>a[i];
 			dem[a[i]]++;
 		}
-		cout<<dem[x]<<endl;
+		if(dem[x]) cout<<dem[x]<<endl;
+        	else cout<<-1<<endl;
 	}
 }
-		
-	
