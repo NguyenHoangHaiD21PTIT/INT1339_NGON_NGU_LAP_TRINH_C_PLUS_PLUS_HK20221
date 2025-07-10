@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool comparePairs(pair<int, int> &x, pair<int, int> &y) {
+//Ai đến trước thì cho vào trước. Cùng đến 1 lúc thì ai nhanh hơn thì cho vào trước
+bool cmp(pair<int, int> &x, pair<int, int> &y) {
     if (x.first != y.first) return x.first < y.first;
     return x.second < y.second;
 }
@@ -9,23 +10,21 @@ bool comparePairs(pair<int, int> &x, pair<int, int> &y) {
 int main() {
     int n;
     cin >> n;
-    vector<pair<int, int>> clients;
-
+    vector<pair<int, int>> KH;//{Thời điểm check-in, thời lượng làm thủ tục}
     for (int i = 0; i < n; ++i) {
         int checkin, time;
         cin >> checkin >> time;
-        clients.push_back({checkin, time});
+        KH.push_back({checkin, time});
     }
-
-    sort(clients.begin(), clients.end(), comparePairs);
-
-    int res = 0;
+    sort(KH.begin(), KH.end(), cmp);
+    int res = 0;//Thời điểm kết thuc của KH thứ i - 1
     for (int i = 0; i < n; ++i) {
-        if (res <= clients[i].first) res = clients[i].first + clients[i].second;
-        else res += clients[i].second;
+        //Nếu ông khách hiện tại đến sau thời điểm kết thúc của ông khách trước 
+        //thì cho ông ta làm thủ tục luôn, không phải đợi --> gán thời điểm checkin + thời gian làm thủ tục
+        if (res <= KH[i].first) res = KH[i].first + KH[i].second;
+        //Nếu ông khách hiện tại đến trước thời điểm kết thúc của ông khách trước
+        //thì phải đợi đến thời điểm kết thúc của ông khách trước mới được làm
+        else res += KH[i].second;
     }
-
     cout << res << endl;
-
-    return 0;
 }
