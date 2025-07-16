@@ -13,7 +13,7 @@ int main(){
         for (int i = 1; i < m; i++){
             dp[i][(s[i] - '0') % 3]++; //Bản thân s[i] cũng là 1 xâu con chia 3 dư s[i%3]
             for (int j = 0; j < 3; j++){
-                //Số xâu con của xâu [s0 s1 ... si] mà chia 3 dư j được tạo ra theo 2 cách khi đã có
+                //Số xâu con của xâu [s0 s1 ... si] được tạo ra theo 2 cách khi đã có
                 //Số xâu con của xâu [s0 s1 ... si-1] mà chia 3 dư j
                 // 1. Không thêm s[i] vào xâu con
                 dp[i][j] += dp[i - 1][j];
