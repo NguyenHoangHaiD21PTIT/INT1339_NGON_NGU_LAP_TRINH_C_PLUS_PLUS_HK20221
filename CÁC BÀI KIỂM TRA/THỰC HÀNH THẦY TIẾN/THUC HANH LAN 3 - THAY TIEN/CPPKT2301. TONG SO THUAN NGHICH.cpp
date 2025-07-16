@@ -17,28 +17,76 @@ int main() {
 	cout << tong << endl;
 }
 /*
-Ví dụ 1: số có 6 chữ số. Ban đầu sẽ có 900 số [sum(10^2, 999) * 1000] (k = 3) (Gen phần đầu là tất cả các số có 3 chữ số)
-100 000
-101 000
-...
-999 000 
-Ví dụ: 123 000 --> 123 000 + 321 = 123 321
-Mỗi một abc trước đó sẽ có một cba tương ứng cũng có <=3 chữ số. VD: 100 -> 001, 101 --> 101, 102 -> 201, 103 -> 301, ..., 999 -> 999 --> Tính tổng từ 001 đến 999
-abc không hợp lệ khi 
-+ a = 0 -> 0bc --> Đảo không thể có dạng bc0, được tạo ra từ các số bc rồi nhân 10, với b c tuỳ ý --> bc 00 01 ... 99 --> Tính tổng từ 00 đến 99 rồi nhân 10 (Loại bỏ cac phần đảo 000, 010, ..., 090, 100, 110, ..., 990)
-Ví dụ 2: Số có 8 chữ số. abcddcba. Gen ban đầu 1000 0000, 1001 0000, ..., 9999 0000 (k = 4) (Gen phần đầu là tất cả các số có 4 chữ số) -> Sum(10^3, 9999) * 10000
-Mỗi một abcd trước đó sẽ có một dcba tương ứng cũng có <=4 chữ số. VD: 1000 -> 0001, 1001 --> 1001, 1002 -> 2001, 1003 -> 3001, ..., 9999 -> 9999 --> Tính tổng từ 0001 đến 9999
-abcddcba không hợp lệ khi
-+ a = 0 -> 0bcd --> Đảo không thể có dạng dcb0 -> được tạo ra từ các số bcd rồi nhân 10, với b c d tuỳ ý --> bcd 000 001 ... 999 --> Tính tổng từ 000 đến 999 rồi nhân 10
-Ví dụ 3: Số có 7 chữ số: abcdcba. [7/2] = 3 [abcd][cba]
-left = 10^{k-1} → số nhỏ nhất có k chữ số
-⇒ left * 10 = 10^k → số nhỏ nhất có k+1 chữ số
-right = 10^k - 1 → số lớn nhất có k chữ số
-⇒ right * 10 + 9 = 10^{k+1} - 1 → số lớn nhất có k+1 chữ số
---> Gen: 1000 000, 1001 000, 9999 000
-Mỗi abc trước đó sẽ có đảo tương ứng cba <=3 chữ số. VD: 100 -> 001, 101 --> 101, 102 -> 201, 103 -> 301, ..., 999 -> 999 --> Tính tổng từ 001 đến 999
-abc không hợp lệ khi
-+ a = 0 → 0bc → đảo không thể có dạng bc0 --> được tạo ra từ các số bc rồi nhân 10, với b c tuỳ ý → bc 00 01 ... 99 → tính tổng từ 00 đến 99 rồi nhân 10 (loại bỏ các phần đảo 000, 010, ..., 090, 100, 110, ..., 990)
-(Trừ như trường hợp vừa nãy)
-Nhưng chú ý là bây giờ abc ghép thêm d nữa, mà d có 10 cách nên mỗi cba đảo bị tính 10 lần. Chẳng hạn: 123 0 321, 123 1 321, ..., 123 9 321.
+Ví dụ 1: Số có 6 chữ số (n = 6)
+--------------------------------
+Cấu trúc: abc|cba (k = n/2 = 3)
+
+- Sinh phần đầu:
+    Gen tất cả số có 3 chữ số: 100, 101, ..., 999
+    → Tạo thành: 100000, 101000, ..., 999000
+    → Tổng phần đầu: sum(10^2, 999) * 10^3
+
+- Sinh phần đuôi:
+    Mỗi abc có một đảo cba ≤ 3 chữ số
+    VD: 100 → 001, 101 → 101, ..., 999 → 999
+    → Tổng: sum(1, 999)
+
+- Loại bỏ trường hợp không hợp lệ:
+    Nếu a = 0 → abc = 0bc → đảo thành cb0 (không hợp lệ)
+    Những số này xuất phát từ bc (00 → 99), khi đảo thêm 0 → cb0
+    → Tổng loại bỏ: sum(1, 99) * 10  (vì cb0 = cb * 10)
+
+→ Công thức:
+sum(10^2, 999) * 10^3 + (sum(1, 999) - sum(1, 99)*10)
+
+--------------------------------
+
+Ví dụ 2: Số có 8 chữ số (n = 8)
+--------------------------------
+Cấu trúc: abcd|dcba (k = n/2 = 4)
+
+- Sinh phần đầu:
+    Gen số có 4 chữ số: 1000 → 9999
+    → Tạo thành: 10000000, 10010000, ..., 99990000
+    → Tổng phần đầu: sum(10^3, 9999) * 10^4
+
+- Sinh phần đuôi:
+    Mỗi abcd có đảo dcba ≤ 4 chữ số
+    VD: 1000 → 0001, 1001 → 1001, ..., 9999 → 9999
+    → Tổng: sum(1, 9999)
+
+- Loại bỏ trường hợp không hợp lệ:
+    Nếu a = 0 → abcd = 0bcd → đảo thành dcb0 (không hợp lệ)
+    Sinh từ bcd (000 → 999), đảo thêm 0
+    → Tổng loại bỏ: sum(1, 999) * 10
+
+→ Công thức:
+sum(10^3, 9999) * 10^4 + (sum(1, 9999) - sum(1, 999)*10)
+
+--------------------------------
+
+Ví dụ 3: Số có 7 chữ số (n = 7)
+--------------------------------
+Cấu trúc: abcd|cba (k = n/2 = 3)
+
+- Sinh phần đầu:
+    Gen số có 4 chữ số: 1000 → 9999
+    → Tổng phần đầu: sum(1000, 9999) * 1000
+
+- Sinh phần đuôi:
+    Mỗi abc có đảo cba ≤ 3 chữ số
+    VD: 100 → 001, 101 → 101, ..., 999 → 999
+    → Tổng: sum(1, 999)
+
+- Loại bỏ trường hợp không hợp lệ:
+    Nếu a = 0 → abc = 0bc → đảo thành cb0
+    Sinh từ bc (00 → 99), đảo thêm 0
+    → Tổng loại bỏ: sum(1, 99) * 10
+
+- Nhân thêm 10 vì chữ số giữa (d) có 10 giá trị (0 → 9)
+    → Mỗi cặp abc tạo 10 palindrome
+    VD: 1230321, 1231321, ..., 1239321
+
+→ Công thức:
+sum(1000, 9999)*1000 + (sum(1, 999) - sum(1, 99)*10)*10
 */
