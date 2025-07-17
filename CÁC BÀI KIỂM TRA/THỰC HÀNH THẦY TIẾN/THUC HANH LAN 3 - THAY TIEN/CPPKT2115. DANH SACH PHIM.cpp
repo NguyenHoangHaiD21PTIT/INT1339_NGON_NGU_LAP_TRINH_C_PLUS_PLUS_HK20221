@@ -1,39 +1,32 @@
 #include <bits/stdc++.h>
 using namespace std;
-class Phim {
-private:
+
+struct Phim {
     string MaPhim, TheLoai, NgayChieu, TenPhim;
     int SoTap, ngay, thang, nam;
-public:
+    // Hàm khởi tạo
     Phim(int x, string TheLoai, string NgayChieu, string TenPhim, int SoTap) {
-        char buffer[10];
-        sprintf(buffer, "P%03d", x);
-        this->MaPhim = buffer;
+        this->MaPhim = "P" + string(3 - to_string(x).length(), '0') + to_string(x);
         this->TheLoai = TheLoai;
         this->NgayChieu = NgayChieu;
         this->TenPhim = TenPhim;
         this->SoTap = SoTap;
-        // Parsing the date (NgayChieu) into day, month, and year
+        // Tách ngày, tháng, năm
         stringstream ss(NgayChieu);
         string part;
-        getline(ss, part, '/');
-        this->ngay = stoi(part);
-        getline(ss, part, '/');
-        this->thang = stoi(part);
-        getline(ss, part);
-        this->nam = stoi(part);
-    }
-    bool operator<(const Phim &o) const {
-        if (this->nam != o.nam) return this->nam < o.nam;
-        else if (this->thang != o.thang) return this->thang < o.thang;
-        else if (this->ngay != o.ngay) return this->ngay < o.ngay;
-        else if (this->TenPhim != o.TenPhim) return this->TenPhim < o.TenPhim;
-        else return o.SoTap < this->SoTap;
-    }
-    void print() const {
-        cout << MaPhim << TheLoai << " " << NgayChieu << " " << TenPhim << " " << SoTap << endl;
+        getline(ss, part, '/'); ngay = stoi(part);
+        getline(ss, part, '/'); thang = stoi(part);
+        getline(ss, part, '/'); nam = stoi(part);
     }
 };
+
+bool cmp(const Phim &a, const Phim &b) {
+    if (a.nam != b.nam) return a.nam < b.nam;
+    if (a.thang != b.thang) return a.thang < b.thang;
+    if (a.ngay != b.ngay) return a.ngay < b.ngay;
+    if (a.TenPhim != b.TenPhim) return a.TenPhim < b.TenPhim;
+    return a.SoTap > b.SoTap; 
+}
 
 int main() {
     int n, m;
@@ -41,23 +34,26 @@ int main() {
     cin.ignore();
     map<string, string> d;
     for (int i = 0; i < n; i++) {
-        string s;
-        getline(cin, s);
-        d["TL" + to_string(i + 1)] = s;
+        string s = "TL" + string(3 - to_string(i + 1).length(), '0') + to_string(i + 1);
+        string s1;
+        getline(cin, s1);
+        d[s] = s1;
     }
     vector<Phim> a;
     for (int i = 1; i <= m; i++) {
-        string TheLoai, NgayChieu, TenPhim;
+        string MaTheLoai, NgayChieu, TenPhim;
         int SoTap;
-        getline(cin, TheLoai);
+        getline(cin, MaTheLoai);
         getline(cin, NgayChieu);
         getline(cin, TenPhim);
         cin >> SoTap;
         cin.ignore();
-        Phim tmp(i, d[TheLoai], NgayChieu, TenPhim, SoTap);
-        a.push_back(tmp);
+        a.push_back({i, d[MaTheLoai], NgayChieu, TenPhim, SoTap});
     }
-    sort(a.begin(), a.end());
-    for (const auto &phim : a) phim.print();
+    sort(a.begin(), a.end(), cmp);
+    for (auto &phim : a) {
+        cout << phim.MaPhim << " " << phim.TheLoai << " " << phim.NgayChieu 
+             << " " << phim.TenPhim << " " << phim.SoTap << "\n";
+    }
+    return 0;
 }
-
