@@ -51,9 +51,6 @@ int main() {
         a.push_back({i, d[MaTheLoai], NgayChieu, TenPhim, SoTap});
     }
     sort(a.begin(), a.end(), cmp);
-    for (auto &phim : a) {
-        cout << phim.MaPhim << " " << phim.TheLoai << " " << phim.NgayChieu 
-             << " " << phim.TenPhim << " " << phim.SoTap << "\n";
-    }
+    for (auto &phim : a)  cout << phim.MaPhim << " " << phim.TheLoai << " " << phim.NgayChieu << " " << phim.TenPhim << " " << phim.SoTap << "\n";
     return 0;
 }
