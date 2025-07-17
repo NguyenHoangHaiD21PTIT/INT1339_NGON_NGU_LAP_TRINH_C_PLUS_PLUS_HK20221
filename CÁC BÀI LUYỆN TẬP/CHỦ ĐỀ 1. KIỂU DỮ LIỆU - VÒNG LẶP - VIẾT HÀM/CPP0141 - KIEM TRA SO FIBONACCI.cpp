@@ -1,36 +1,24 @@
 #include<bits/stdc++.h>
 using namespace std;
-long long phibonaxi(long long n){
-	long long fn=0, f0=0, f1=1;
-	if(n==0||n==1){
-		return n;
-	} else {
-		for(long long i=2;i<=n;i++){
-			fn=f0+f1;
-			f0=f1;
-			f1=fn;
-		}
-	    return fn;
-	}
+long long f[95];
+void gen(){
+	f[0] = 0; f[1] = 1;
+	for(int i = 2;i<=91;i++) f[i] = f[i - 1] + f[i - 2];
 }
+
+bool find(long long f[], long long x) {
+    for(int i = 0; i < 92; i++) {
+        if(f[i] == x) return true;
+    }
+    return false;
+}
+
 int main(){
-	int t;
-	cin>>t;
+	int t; cin>>t;
 	while(t--){
-		long long n;
-		cin>>n;
-		int check=0;//gia su k la so phibo
-		for(int i=0;phibonaxi(i)<=n;i++){
-		    if(phibonaxi(i)==n){
-		    	check=1;
-		    	break;
-		    }
-		}
-		if(check==1){
-			cout<<"YES"<<endl;
-		} else {
-			cout<<"NO"<<endl;
-		}
+		long long n; cin>>n;
+		gen();
+		if(find(f, n)) cout<<"YES\n";
+		else cout<<"NO\n";
 	}
 }
-			
