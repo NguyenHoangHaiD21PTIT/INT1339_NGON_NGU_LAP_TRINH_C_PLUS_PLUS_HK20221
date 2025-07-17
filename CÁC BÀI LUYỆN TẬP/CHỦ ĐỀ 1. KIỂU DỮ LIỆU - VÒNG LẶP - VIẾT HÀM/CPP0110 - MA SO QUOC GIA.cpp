@@ -5,14 +5,14 @@ int main(){
 	cin >> t;
 	cin.ignore();
 	while(t--){
-		char c[50];
-		cin >> c;
-		for(int i=0;i<strlen(c)-2;i++){
-			if(c[i]=='0'&&c[i+1]=='8'&&c[i+2]=='4') c[i]=c[i+1]=c[i+2]='x';
+		string s, s1 = "084";
+		cin >> s;
+		int pos = s.find(s1);
+		while(pos != string::npos){
+			s.erase(pos, 3);
+			pos = s.find(s1);
 		}
-		for(int i=0;i<strlen(c);i++){
-			if(c[i]!='x') cout << c[i];
-		}
-		cout << endl;
+		cout << s << endl;
 	}
 }
+
