@@ -14,11 +14,10 @@ int main(){
 			mp[a[i]]++;
 		}
 		for(int i=0;i<n;i++){
-			if(mp[a[i]]>=2){
-				dem+=mp[a[i]];
-			}
+			if(mp[a[i]]>=2) dem+=mp[a[i]];
 			mp[a[i]]=0;
 		}
 		cout << dem << endl;
 	}
 }
+
