@@ -26,5 +26,4 @@ int main() {
             cau += c;
         }
     }
-    cout << chuanHoa(cau) << endl;
 }
