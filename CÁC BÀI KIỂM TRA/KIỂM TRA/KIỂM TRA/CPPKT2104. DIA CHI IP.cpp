@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool isInteger(string s) {
+bool isInt(string s) {
     try {
         stoi(s);
         return true;
@@ -10,7 +10,7 @@ bool isInteger(string s) {
     }
 }
 
-bool isValidIP(const string& s) {
+bool isVal(const string& s) {
     string temp = s;
     for (char& c : temp) {
         if (c == '.') c = ' ';
@@ -21,7 +21,7 @@ bool isValidIP(const string& s) {
     while (ss >> token) vs.push_back(token);
     if (vs.size() != 4) return false;
     for (string part : vs) {
-        if (!isInteger(part)) return false;
+        if (!isInt(part)) return false;
         int num = stoi(part);
         if (num < 0 || num > 255) return false;
     }
@@ -29,9 +29,11 @@ bool isValidIP(const string& s) {
 }
 
 int main() {
-    string s;
-    cin>>s;
-    if(isValidIP(s)) cout<<"YES";
-    else cout<<"NO";
+    int t; cin >> t;
+    while (t--){
+        string s; cin>>s;
+        if(isVal(s)) cout << "YES" << endl;
+        else cout << "NO" << endl;
+    } 
 }
 
