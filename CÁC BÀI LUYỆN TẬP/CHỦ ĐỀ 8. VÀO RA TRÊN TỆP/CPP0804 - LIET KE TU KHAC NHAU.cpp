@@ -1,22 +1,14 @@
 #include<bits/stdc++.h>
 using namespace std;
-string chuanhoa(string &s){//viet thuong toan bo cac chu cai trong xau s
-	for(int i=0;i<s.size();i++){
-		s[i]=tolower(s[i]);
-	}
+string chuanhoa(string &s){
+	for(int i=0;i<s.size();i++) s[i]=tolower(s[i]);
 	return s;
 }
 int main(){
-	string s;//nhap tung tu
-	set<string>ss;//loai bo trung nhau, sort theo tt tu dien
+	string s;
+	set <string> ss;
 	fstream infile;
 	infile.open("VANBAN.in");
-	while(infile>>s){
-		string s1;
-		s1=chuanhoa(s);
-		ss.insert(s1);
-	}
-	for(auto x:ss){
-		cout<<x<<endl;
-	}
+	while(infile >> s) ss.insert (chuanhoa(s));
+	for(auto x: ss) cout << x << endl;
 }
