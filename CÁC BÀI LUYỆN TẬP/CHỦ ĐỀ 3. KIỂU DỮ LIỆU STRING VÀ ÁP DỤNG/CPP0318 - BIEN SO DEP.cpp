@@ -1,46 +1,27 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-int check1 (string &s){//Kiem tra dieu kien tang chat
-	if(s[5]<s[6]&&s[6]<s[7]&&s[7]<s[9]&&s[9]<s[10]){
-		return 1;
-	} else {
-		return 0;
-	}
+bool checkTang(const string &s) {
+    return s[5] < s[6] && s[6] < s[7] && s[7] < s[9] && s[9] < s[10];
 }
-int check2(string &s){//Kiem tra dieu kien bang nhau
-	if(s[5]==s[6]&&s[6]==s[7]&&s[7]==s[9]&&s[9]==s[10]){
-		return 1;
-	} else {
-		return 0;
-	}
+bool checkBang(const string &s) {
+    return s[5] == s[6] && s[6] == s[7] && s[7] == s[9] && s[9] == s[10];
 }
-int check3(string &s){//Kiem tra dieu kien 3 so dau=nhau, 2 so cuoi=nhau
-	if(s[5]==s[6]&&s[6]==s[7]&&s[9]==s[10]){
-		return 1;
-	} else {
-		return 0;
-	}
+bool check3_2(const string &s) {
+    return s[5] == s[6] && s[6] == s[7] && s[9] == s[10];
 }
-int check4(string &s){//Loc phat
-	if((s[5]=='6'||s[5]=='8')&&(s[6]=='6'||s[6]=='8')&&(s[7]=='6'||s[7]=='8')&&(s[9]=='6'||s[9]=='8')&&(s[10]=='6'||s[10]=='8')){
-		return 1;
-	} else {
-		return 0;
-	}
+bool checkLocPhat(const string &s) {
+    for (int i : {5, 6, 7, 9, 10}) 
+        if (s[i] != '6' && s[i] != '8') return false;
+    return true;
 }
-int main(){
-	int t;
-	cin>>t;
-	cin.ignore();
-	while(t--){
-		string s;
-		getline(cin,s);
-		if(check1(s)==1||check2(s)==1||check3(s)==1||check4(s)==1){
-			cout<<"YES"<<endl;
-		} else {
-			cout<<"NO"<<endl;
-		}
-	}
+int main() {
+    int t;
+    cin >> t;
+    cin.ignore();
+    while (t--) {
+        string s;
+        getline(cin, s);
+        if (checkTang(s) || checkBang(s) || check3_2(s) || checkLocPhat(s)) cout << "YES\n";
+        else cout << "NO\n";
+    }
 }
-		
-	
