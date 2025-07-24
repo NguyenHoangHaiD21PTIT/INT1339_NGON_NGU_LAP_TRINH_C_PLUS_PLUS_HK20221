@@ -14,10 +14,10 @@ void chuanHoaNgay(string &s) {
 void nhap(SinhVien ds[], int n) {
     cin.ignore();
     for (int i = 0; i < n; i++) {
-		ds[i].maSV = "B20DCCN" + string(3 - to_string(i + 1).size(), '0') + to_string(i + 1);
+	ds[i].maSV = "B20DCCN" + string(3 - to_string(i + 1).size(), '0') + to_string(i + 1);
         getline(cin, ds[i].hoTen);
         cin >> ds[i].lop >> ds[i].ngaySinh >> ds[i].gpa;
-		chuanHoaNgay (ds[i].ngaySinh);
+	chuanHoaNgay (ds[i].ngaySinh);
         cin.ignore();
     }
 }
