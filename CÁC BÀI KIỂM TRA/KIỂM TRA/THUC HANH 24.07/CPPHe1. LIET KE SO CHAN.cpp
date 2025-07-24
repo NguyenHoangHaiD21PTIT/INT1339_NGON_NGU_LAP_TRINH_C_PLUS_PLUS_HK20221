@@ -10,7 +10,8 @@ int main(){
             cnt[a[i]]++;
         }
         int check = 0;
-        for(int i = 1; i <= a[0]; i++){
+        sort (a, a + n);
+        for(int i = 1; i <= a[n - 1]; i++){
             if(cnt[i] == 0 && i % 2 == 0){
                 cout << i << " ";
                 check = 1;
