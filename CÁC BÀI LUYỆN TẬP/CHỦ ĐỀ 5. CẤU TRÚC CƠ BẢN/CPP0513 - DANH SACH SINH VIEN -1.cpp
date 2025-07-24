@@ -1,52 +1,36 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-struct SinhVien{
-	string ma1="B20DCCN";
-	string ma2;//maso
-	string hoten,lop,ns;
-	double gpa;
+
+struct SinhVien {
+    string maSV = "", hoTen, lop, ngaySinh;
+    double gpa;
 };
-void nhap(SinhVien ds[], int n){
-	for(int i=0;i<n;i++){
-		cin.ignore();
-		getline(cin, ds[i].hoten);
-		cin>>ds[i].lop;
-		cin>>ds[i].ns;
-		cin>>ds[i].gpa;
-	}
+
+void chuanHoaNgay(string &s) {
+    if (s[1] == '/') s = "0" + s;
+    if (s[4] == '/') s.insert(3, "0");
 }
-void solve(SinhVien ds[], int n){
-	for(int i=0;i<n;i++){
-		//Chuan hoa ngay sinh
-		if(ds[i].ns[1]=='/'){
-			ds[i].ns="0"+ds[i].ns;
-		} 
-    	if(ds[i].ns[4]=='/'){
-			ds[i].ns.insert(3,"0");
-		}
-		//Chuan hoa masv
-		ds[i].ma2=to_string(i+1);
-		while(ds[i].ma2.size()<=2){
-			ds[i].ma2="0"+ds[i].ma2;
-		}
-	    ds[i].ma1=ds[i].ma1+ds[i].ma2;
-	}
+
+void nhap(SinhVien ds[], int n) {
+    cin.ignore();
+    for (int i = 0; i < n; i++) {
+		ds[i].maSV = "B20DCCN" + string(3 - to_string(i + 1).size(), '0') + to_string(i + 1);
+        getline(cin, ds[i].hoTen);
+        cin >> ds[i].lop >> ds[i].ngaySinh >> ds[i].gpa;
+		chuanHoaNgay (ds[i].ngaySinh);
+        cin.ignore();
+    }
 }
-void in(SinhVien ds[], int n){
-	solve(ds,n);
-	for(int i=0;i<n;i++){
-		cout<<ds[i].ma1<<" "<<ds[i].hoten<<" "<<ds[i].lop<<" "<<ds[i].ns<<" "<<fixed<<setprecision(2)<<ds[i].gpa<<" ";
-		cout<<endl;
-	}
-}	
-int main(){
-    struct SinhVien ds[50];
+
+void in(SinhVien ds[], int n) {
+    for (int i = 0; i < n; i++) cout << ds[i].maSV << " " << ds[i].hoTen << " " << ds[i].lop << " " << ds[i].ngaySinh << " " << fixed << setprecision(2) << ds[i].gpa << "\n";
+}
+
+int main() {
+    SinhVien ds[50];
     int N;
     cin >> N;
     nhap(ds, N);
     in(ds, N);
     return 0;
 }
-			
-		
-
