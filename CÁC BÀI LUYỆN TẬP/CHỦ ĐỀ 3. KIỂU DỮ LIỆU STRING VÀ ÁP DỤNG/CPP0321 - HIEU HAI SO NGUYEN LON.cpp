@@ -1,47 +1,38 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-void tru(string a, string b){//ham phep tru, a la so lon b la so be
-    int n1=a.size();
-    int n2=b.size();
-    int x[n1], y[n1], z[n1];//x, y: mang luu cac so trong a, b; z: mang luu cac so trong hieu
-    for(int i=0;i<n1;i++){
-    	x[i]=a[i]-'0';
-    }
-    for(int i=0;i<n2;i++){
-    	y[i]=b[i]-'0';
-    }
-    reverse(x,x+n1);reverse(y,y+n2);
-    for(int i=n2;i<n1;i++){//chen nhung so 0 vo nghia vao truoc xau ban dau
-    	y[i]=0;
-    }
-    int n=0, muon=0;//n: so chu so trong phep tru(n=n1 or n=n1-1; muon: bien muon)
-    int tmp;
-    for(int i=0;i<n1;i++){
-        tmp = x[i] - y[i]- muon;
-        if(tmp<0){
-        	muon=1;
-        	z[n++]=tmp+10;
+
+bool isSmaller(string X, string Y) {
+    if (X.size() != Y.size()) return X.size() < Y.size();
+    return X < Y;
+}
+
+string tru(string X, string Y) {
+    if (isSmaller(X, Y)) swap(X, Y); 
+    reverse(X.begin(), X.end());
+    reverse(Y.begin(), Y.end());
+    while (Y.size() < X.size()) Y += '0';
+    string res = "";
+    int muon = 0;
+    for (int i = 0; i < X.size(); ++i) {
+        int digitX = X[i] - '0';
+        int digitY = Y[i] - '0' + muon;
+        if (digitX < digitY) {
+            digitX += 10;
+            muon = 1;
         } else {
-        	muon=0;
-        	z[n++]=tmp;
+            muon = 0;
         }
+        res.push_back((digitX - digitY) + '0');
     }
-    for(int i=n-1;i>=0;i--){
-    	cout<<z[i];
+    reverse(res.begin(), res.end());
+    return res;
+}
+
+int main() {
+    int t; cin >> t;
+    while (t--) {
+        string X, Y;
+        cin >> X >> Y;
+        cout << tru(X, Y) << "\n";
     }
-} 
-int main(){
-	int t;
-	cin>>t;
-	cin.ignore();
-	while(t--){
-		string a,b;
-		cin>>a>>b;
-		if(a.size()>b.size()){
-			tru(a,b);
-		} else {
-			tru(b,a);
-		}
-		cout<<endl;
-	}
 }
